@@ -1,29 +1,35 @@
 import React, { Component } from 'react'
-import ALLOWED_KEYS from './lib/keys'
+import { connect } from 'react-redux'
 import './App.css'
 
+import * as gameActions from './actions/game'
+
 class App extends Component {
-  state = {
-    currentKey: this.getAnyKey(),
-    message: ''
+  win() {
+    this.props.dispatch(gameActions.incrementPoints())
+    this.props.dispatch(gameActions.generateKey())
+    this.props.dispatch(gameActions.changeMessage('WIN!'))
+    this.clearMessage()
   }
 
-  getAnyKey() {
-    let i = Math.floor(Math.random() * ALLOWED_KEYS.length)
-    return ALLOWED_KEYS[i]
+  loose() {
+    this.props.dispatch(gameActions.resetPoints())
+    this.props.dispatch(gameActions.changeMessage('LOOSE!'))
+    this.clearMessage()
+  }
+
+  clearMessage() {
+    setTimeout(() => {
+      this.props.dispatch(gameActions.changeMessage(''))
+    }, 1000)
   }
 
   checkKey(e) {
     let pressedKey = e.key.toUpperCase()
-    if (pressedKey === this.state.currentKey) {
-      this.setState({
-        currentKey: this.getAnyKey(),
-        message: 'ACERTOU!'
-      })
+    if (pressedKey === this.props.game.currentKey) {
+      this.win()
     } else {
-      this.setState({
-        message: 'ERROU!'
-      })
+      this.loose()
     }
   }
 
@@ -32,13 +38,16 @@ class App extends Component {
   }
 
   render() {
+    const { game } = this.props
+
     return (
       <div ref="App" className="App" onKeyPress={this.checkKey.bind(this)} tabIndex="0">
-        <h1>{this.state.currentKey}</h1>
-        <p>{this.state.message}</p>
+        <p>Points: {game.points}</p>
+        <h1>{game.currentKey}</h1>
+        <p>{game.message}</p>
       </div>
     )
   }
 }
 
-export default App
+export default connect(state => state)(App)

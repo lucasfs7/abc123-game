@@ -4,4 +4,17 @@ const ALLOWED_KEYS = [
   '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
 ]
 
-export default ALLOWED_KEYS
+const memo = null
+
+function getRandomKey() {
+  let i = Math.floor(Math.random() * ALLOWED_KEYS.length)
+  return ALLOWED_KEYS[i]
+}
+
+export function generateKey() {
+  let key = getRandomKey()
+  while (key === memo) {
+    key = getRandomKey()
+  }
+  return key
+}
