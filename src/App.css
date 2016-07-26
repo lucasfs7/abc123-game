@@ -8,6 +8,9 @@ html, body, #root {
   height: 100%;
   font-family: Helvetica, Arial, sans-serif;
   font-size: 16px;
+  user-select: none;
+  cursor: none;
+  overflow: hidden;
 }
 
 .App {

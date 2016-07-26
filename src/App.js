@@ -33,6 +33,11 @@ class App extends Component {
     }
   }
 
+  handleDisableClick(e) {
+    e.preventDefault()
+    e.stopPropagation()
+  }
+
   componentDidMount() {
     this.refs.App.focus()
   }
@@ -41,7 +46,14 @@ class App extends Component {
     const { game } = this.props
 
     return (
-      <div ref="App" className="App" onKeyPress={this.checkKey.bind(this)} tabIndex="0">
+      <div
+        ref="App"
+        className="App"
+        onKeyPress={this.checkKey.bind(this)}
+        tabIndex="0"
+        onClick={this.handleDisableClick}
+        onContextMenu={this.handleDisableClick}
+      >
         <p className="points">Points: {game.points}</p>
         <h1 className="key">{game.currentKey}</h1>
         <p className="message">{game.message}</p>
