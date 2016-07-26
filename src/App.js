@@ -21,7 +21,7 @@ class App extends Component {
   clearMessage() {
     setTimeout(() => {
       this.props.dispatch(gameActions.changeMessage(''))
-    }, 1000)
+    }, 2000)
   }
 
   checkKey(e) {
@@ -42,9 +42,9 @@ class App extends Component {
 
     return (
       <div ref="App" className="App" onKeyPress={this.checkKey.bind(this)} tabIndex="0">
-        <p>Points: {game.points}</p>
-        <h1>{game.currentKey}</h1>
-        <p>{game.message}</p>
+        <p className="points">Points: {game.points}</p>
+        <h1 className="key">{game.currentKey}</h1>
+        <p className="message">{game.message}</p>
       </div>
     )
   }
