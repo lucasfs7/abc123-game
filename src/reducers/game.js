@@ -4,7 +4,11 @@ import { generateKey } from '../lib/keys'
 const initialState = {
   points: 0,
   currentKey: generateKey(),
-  message: ''
+  message: {
+    type: '',
+    text: '',
+    show: false
+  }
 }
 
 function game(state = initialState, action) {

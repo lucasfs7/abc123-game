@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import cx from 'classname'
 import './App.css'
 
 import * as gameActions from './actions/game'
@@ -7,21 +8,27 @@ import * as gameActions from './actions/game'
 class App extends Component {
   win() {
     this.props.dispatch(gameActions.incrementPoints())
-    this.props.dispatch(gameActions.generateKey())
-    this.props.dispatch(gameActions.changeMessage('WIN!'))
-    this.clearMessage()
+    this.props.dispatch(gameActions.changeMessage({
+      type: 'success',
+      text: 'WIN!',
+      show: true
+    }))
+    setTimeout(() => {
+      this.props.dispatch(gameActions.changeMessage({ show: false }))
+      this.props.dispatch(gameActions.generateKey())
+    }, 2000)
   }
 
   loose() {
     this.props.dispatch(gameActions.resetPoints())
-    this.props.dispatch(gameActions.changeMessage('LOOSE!'))
-    this.clearMessage()
-  }
-
-  clearMessage() {
+    this.props.dispatch(gameActions.changeMessage({
+      type: 'error',
+      text: 'LOOSE!',
+      show: true
+    }))
     setTimeout(() => {
-      this.props.dispatch(gameActions.changeMessage(''))
-    }, 2000)
+      this.props.dispatch(gameActions.changeMessage({ show: false }))
+    }, 1000)
   }
 
   checkKey(e) {
@@ -56,7 +63,9 @@ class App extends Component {
       >
         <p className="points">Points: {game.points}</p>
         <h1 className="key">{game.currentKey}</h1>
-        <p className="message">{game.message}</p>
+        {game.message.show ?
+          <p className={cx(['message', game.message.type])}>{game.message.text}</p>
+        : '' }
       </div>
     )
   }

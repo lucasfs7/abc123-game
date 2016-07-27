@@ -37,3 +37,11 @@ html, body, #root {
   font-size: 10em;
   text-align: center;
 }
+
+.App .message.success {
+  color: green;
+}
+
+.App .message.error {
+  color: red;
+}
